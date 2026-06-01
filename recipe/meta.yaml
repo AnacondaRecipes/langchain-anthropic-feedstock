@@ -25,6 +25,10 @@ requirements:
     - langchain-core >=1.4.0,<2.0.0
     - anthropic >=0.96.0,<1.0.0
 
+# test_standard requires langchain-tests; test_chat_models requires blockbuster,
+# which is not available in defaults.
+{% set ignore_tests = " --ignore=tests/unit_tests/test_standard.py --ignore=tests/unit_tests/test_chat_models.py" %}
+
 test:
   source_files:
     - tests
@@ -32,10 +36,16 @@ test:
     - langchain_anthropic
   commands:
     - pip check
-    - pytest -v --confcutdir=tests/unit_tests tests/unit_tests/test_imports.py tests/unit_tests/test_client_utils.py tests/unit_tests/test_output_parsers.py tests/unit_tests/test_llms.py -k "not test_async_client_wrapper_del_handles_uninitialized_client"
+    - pytest -v --asyncio-mode=auto --confcutdir=tests/unit_tests tests/unit_tests {{ ignore_tests }}
   requires:
     - pip
     - pytest
+    - freezegun
+    - langchain
+    - langgraph-prebuilt >=1.0.7,<1.1.0
+    - langgraph-sdk
+    - pytest-asyncio
+    - pytest-mock
 
 about:
   home: https://github.com/langchain-ai/langchain
