@@ -42,7 +42,7 @@ test:
     - pytest
     - freezegun
     - langchain
-    - langgraph-prebuilt >=1.0.7,<1.1.0
+    - langgraph-prebuilt
     - langgraph-sdk
     - pytest-asyncio
     - pytest-mock
