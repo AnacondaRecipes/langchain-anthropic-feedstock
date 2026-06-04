@@ -1,3 +1,2 @@
-upload_channels:
-  - sfe1ed40
-
+channels:
+  - https://staging.continuum.io/pbp/fs/langgraph-prebuilt-feedstock/pr16/c69311e
