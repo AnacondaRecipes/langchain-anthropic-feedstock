@@ -1,18 +1,21 @@
 {% set name = "langchain-anthropic" %}
-{% set version = "1.4.4" %}
+{% set version = "1.4.8" %}
+{% set ignore_tests = " --ignore=tests/unit_tests/test_standard.py --ignore=tests/unit_tests/test_chat_models.py" %}
 
+# both test_standard and test_chat_models require langchain_tests
+# E   ModuleNotFoundError: No module named 'langchain_tests'
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: 9ea39ed345f8b13f13bb37549130eedcec2d032eb08b4942642e758c5ba3ece5
+  sha256: c76891b2044d56105ff13c106ed12650637b53bd598a4bdf15b4796eefa2a4ec
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<310]
+  skip: true  # [py<3100]
 
 requirements:
   host:
@@ -22,12 +25,8 @@ requirements:
   run:
     - python
     - pydantic >=2.7.4,<3.0.0
-    - langchain-core >=1.4.0,<2.0.0
+    - langchain-core >=1.4.7,<2.0.0
     - anthropic >=0.96.0,<1.0.0
-
-# both test_standard and test_chat_models require langchain_tests
-# E   ModuleNotFoundError: No module named 'langchain_tests'
-{% set ignore_tests = " --ignore=tests/unit_tests/test_standard.py --ignore=tests/unit_tests/test_chat_models.py" %}
 
 test:
   source_files:
